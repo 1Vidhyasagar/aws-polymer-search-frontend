@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // If deploying later, replace with deployed backend URL
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "https://aws-polymer-search-backend.vercel.app/";
 
 // Search API with token authentication
 export const searchPolymer = async (query) => {
