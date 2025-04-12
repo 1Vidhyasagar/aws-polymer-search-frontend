@@ -29,9 +29,10 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        "https://aws-polymer-search-backend-gx9o.vercel.app/api/auth/login",
         form
       );
+
       login(res.data.token); // This will update the token in context
       setMessage("Login successful! Redirecting...");
       navigate("/dashboard"); // This will redirect to the dashboard
