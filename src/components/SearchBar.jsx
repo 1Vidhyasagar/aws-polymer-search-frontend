@@ -1,39 +1,60 @@
 import React, { useState } from "react";
-import { TextField, Button, Box, Paper } from "@mui/material";
+import { Box, TextField, Button, Paper } from "@mui/material";
 
 const SearchBar = ({ onSearch }) => {
   const [query, setQuery] = useState("");
+  const [error, setError] = useState(false);
 
-  const handleSearch = () => {
-    if (query.trim()) {
-      onSearch(query);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const trimmedQuery = query.trim();
+
+    if (!trimmedQuery) {
+      setError(true);
+      return;
     }
+
+    setError(false);
+    onSearch(trimmedQuery);
   };
 
   return (
-    <Box
-      component={Paper}
+    <Paper
       elevation={3}
-      p={2}
-      mt={4}
-      mb={2}
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
+      sx={{
+        padding: 2,
+        maxWidth: 600,
+        margin: "30px auto",
+        backgroundColor: "#f5f5f5",
+      }}
     >
-      <TextField
-        label="Search AWS Polymer"
-        variant="outlined"
-        fullWidth
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-        sx={{ mr: 2 }}
-      />
-      <Button variant="contained" color="primary" onClick={handleSearch}>
-        Search
-      </Button>
-    </Box>
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        display="flex"
+        flexDirection={{ xs: "column", sm: "row" }}
+        alignItems="center"
+        gap={2}
+      >
+        <TextField
+          fullWidth
+          label="Search AWS Polymer"
+          variant="outlined"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          error={error}
+          helperText={error ? "Please enter a search term" : ""}
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          sx={{ minWidth: "120px" }}
+        >
+          Search
+        </Button>
+      </Box>
+    </Paper>
   );
 };
 

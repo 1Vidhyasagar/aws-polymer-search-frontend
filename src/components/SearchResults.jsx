@@ -1,42 +1,29 @@
 import React from "react";
-import {
-  Card,
-  CardContent,
-  Typography,
-  Grid,
-  Box,
-  Paper,
-} from "@mui/material";
 
 const SearchResults = ({ results }) => {
-  if (!results.length) {
-    return (
-      <Box mt={4} textAlign="center">
-        <Typography variant="h6" color="textSecondary">
-          No results to display.
-        </Typography>
-      </Box>
-    );
-  }
-
   return (
-    <Grid container spacing={2} mt={2}>
-      {results.map((item, index) => (
-        <Grid item xs={12} sm={6} md={4} key={index}>
-          <Card elevation={3}>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                {item.title || "Untitled Result"}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {item.description || "No description available."}
-              </Typography>
-              {/* Add more fields here if needed */}
-            </CardContent>
-          </Card>
-        </Grid>
-      ))}
-    </Grid>
+    <div className="container mt-4">
+      <div className="row">
+        {results.length === 0 ? (
+          <div className="col-12">
+            <p>No results found.</p>
+          </div>
+        ) : (
+          results.map((item, index) => (
+            <div className="col-12 col-sm-6 col-md-4 mb-3" key={index}>
+              <div className="card h-100">
+                <div className="card-body">
+                  <h5 className="card-title">{item.title || "Untitled"}</h5>
+                  <p className="card-text">
+                    {item.description || "No description available."}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
   );
 };
 

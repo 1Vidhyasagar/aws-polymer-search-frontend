@@ -1,35 +1,73 @@
-import React from "react";
-import { Grid, Card, CardContent, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { Typography, Box } from "@mui/material";
+import SearchBar from "./SearchBar"; // ✅ Only import once
+import SearchResults from "./SearchResults"; // Correctly import and use the results
+import SearchChart from "./SearchChart"; // Import SearchChart if needed
+import { useAuth } from "../context/AuthContext";
 
+const Dashboard = () => {
+  const [searchResults, setSearchResults] = useState([]);
+  const [message, setMessage] = useState("");
+  const { token } = useAuth();
 
-const DashboardCards = ({ results }) => {
-  const totalResults = results.length;
-  const topTitle =
-    results.reduce((longest, curr) =>
-      curr.title?.length > longest.length ? curr.title : longest,
-    "") || "N/A";
+  const handleSearch = async (query) => {
+    if (!token) {
+      setMessage("Please login to use the search feature.");
+      setSearchResults([]);
+      return;
+    }
+
+    if (!query.trim()) {
+      setMessage("Search query cannot be empty.");
+      setSearchResults([]);
+      return;
+    }
+
+    try {
+      const { searchPolymer } = await import("../services/api");
+      const results = await searchPolymer(query);
+      if (results.length === 0) {
+        setMessage("No results found.");
+      } else {
+        setMessage("");
+      }
+      setSearchResults(results);
+    } catch (error) {
+      console.error("Search failed:", error);
+      setMessage("An error occurred while searching.");
+    }
+  };
 
   return (
-    <Grid container spacing={2} style={{ marginTop: "20px" }}>
-      <Grid item xs={12} sm={6} md={4}>
-        <Card sx={{ backgroundColor: "#f5f5f5" }}>
-          <CardContent>
-            <Typography variant="h6">Total Results</Typography>
-            <Typography variant="h4">{totalResults}</Typography>
-          </CardContent>
-        </Card>
-      </Grid>
+    <Box sx={{ padding: "1rem", textAlign: "center" }}>
+      {/* Always visible heading */}
+      <Typography
+        variant="h6"
+        component="h2"
+        sx={{ mb: 3, color: "#1976d2", fontWeight: "bold" }}
+      >
+        Welcome to AWS Polymer
+      </Typography>
 
-      <Grid item xs={12} sm={6} md={8}>
-        <Card sx={{ backgroundColor: "#e3f2fd" }}>
-          <CardContent>
-            <Typography variant="h6">Top Result Title</Typography>
-            <Typography variant="body1">{topTitle}</Typography>
-          </CardContent>
-        </Card>
-      </Grid>
-    </Grid>
+      {/* Single SearchBar */}
+      <SearchBar onSearch={handleSearch} />
+
+      {/* Show message if there is any */}
+      {message && (
+        <Typography color="error" sx={{ mt: 2 }}>
+          {message}
+        </Typography>
+      )}
+
+      {/* Results and Charts */}
+      {searchResults.length > 0 && (
+        <>
+          <SearchResults results={searchResults} />
+          <SearchChart data={searchResults} />
+        </>
+      )}
+    </Box>
   );
 };
 
-export default DashboardCards;
+export default Dashboard;
