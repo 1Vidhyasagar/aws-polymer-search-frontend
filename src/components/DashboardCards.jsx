@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Typography, Box, Container } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 import SearchBar from "./SearchBar";
 import SearchResults from "./SearchResults";
 import SearchChart from "./SearchChart";
@@ -38,61 +38,60 @@ const Dashboard = () => {
     }
   };
 
- return (
-   <Box
-     minHeight="100vh"
-     sx={{
-       background: "linear-gradient(135deg, #0f2027, #203a43, #2c5364)",
-       backgroundSize: "cover",
-       backgroundPosition: "center",
-       py: 6,
-     }}
-   >
-     {/* Fixed-width search box area */}
-     <Box
-       maxWidth="600px"
-       mx="auto"
-       p={4}
-       sx={{
-         background: "rgba(255, 255, 255, 0.15)",
-         boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
-         backdropFilter: "blur(8px)",
-         WebkitBackdropFilter: "blur(8px)",
-         borderRadius: "16px",
-         border: "1px solid rgba(255, 255, 255, 0.18)",
-         textAlign: "center",
-       }}
-     >
-       <Typography
-         variant="h5"
-         component="h2"
-         gutterBottom
-         sx={{ color: "white", fontWeight: "bold" }}
-       >
-         Welcome to AWS Polymer
-       </Typography>
+  return (
+    <Box
+      minHeight="100vh"
+      sx={{
+        background: "linear-gradient(135deg, #0f2027, #203a43, #2c5364)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        py: 6,
+        px: 2, // padding for small screens
+      }}
+    >
+      <Box
+        maxWidth="600px"
+        width="100%"
+        mx="auto"
+        p={4}
+        sx={{
+          background: "rgba(255, 255, 255, 0.15)",
+          boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
+          backdropFilter: "blur(8px)",
+          WebkitBackdropFilter: "blur(8px)",
+          borderRadius: "16px",
+          border: "1px solid rgba(255, 255, 255, 0.18)",
+          textAlign: "center",
+        }}
+      >
+        <Typography
+          variant="h5"
+          component="h2"
+          gutterBottom
+          sx={{ color: "white", fontWeight: "bold" }}
+        >
+          Welcome to AWS Polymer
+        </Typography>
 
-       <SearchBar onSearch={handleSearch} />
+        <SearchBar onSearch={handleSearch} />
 
-       {message && (
-         <Typography color="error" sx={{ mt: 2 }}>
-           {message}
-         </Typography>
-       )}
-     </Box>
+        {message && (
+          <Typography color="error" sx={{ mt: 2 }}>
+            {message}
+          </Typography>
+        )}
 
-     {/* Search results + chart below, full width */}
-     {searchResults.length > 0 && (
-       <Box mt={4} px={2}>
-         <SearchResults results={searchResults} />
-         <Box mt={4}>
-           <SearchChart data={searchResults} />
-         </Box>
-       </Box>
-     )}
-   </Box>
- );
-
+        {searchResults.length > 0 && (
+          <Box mt={4}>
+            <SearchResults results={searchResults} />
+            <Box mt={4}>
+              <SearchChart data={searchResults} />
+            </Box>
+          </Box>
+        )}
+      </Box>
+    </Box>
+  );
 };
 
 export default Dashboard;
