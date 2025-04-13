@@ -28,7 +28,7 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        "https://aws-polymer-search-backend-1.onrender.com/api/auth/login", // 
+        "https://aws-polymer-search-backend-1.onrender.com/api/auth/login",
         form
       );
 
@@ -53,7 +53,7 @@ const Login = () => {
         <Container maxWidth="xs">
           <Box p={4} boxShadow={3} borderRadius={2} bgcolor="white">
             <Typography variant="h5" align="center" gutterBottom>
-              Login to Polymer Search
+              Login
             </Typography>
             <form onSubmit={handleSubmit}>
               <TextField

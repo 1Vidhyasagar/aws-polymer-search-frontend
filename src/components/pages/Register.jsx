@@ -1,5 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
+import {
+  Container,
+  TextField,
+  Button,
+  Typography,
+  Box,
+  Alert,
+  CssBaseline,
+} from "@mui/material";
 
 const Register = () => {
   const [form, setForm] = useState({ username: "", password: "" });
@@ -13,7 +22,7 @@ const Register = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "https://aws-polymer-search-backend-1.onrender.com/api/auth/register", // 
+        "https://aws-polymer-search-backend-1.onrender.com/api/auth/register",
         form
       );
 
@@ -24,58 +33,66 @@ const Register = () => {
   };
 
   return (
-    <div
-      className="container d-flex justify-content-center align-items-center"
-      style={{ minHeight: "100vh" }}
-    >
-      <div
-        className="card p-4 shadow"
-        style={{ maxWidth: "400px", width: "100%" }}
+    <>
+      <CssBaseline />
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="100vh"
+        bgcolor="#f5f5f5"
       >
-        <h3 className="text-center mb-3">Register</h3>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="username" className="form-label">
-              Username
-            </label>
-            <input
-              name="username"
-              id="username"
-              type="text"
-              className="form-control"
-              placeholder="Enter username"
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor="password" className="form-label">
-              Password
-            </label>
-            <input
-              name="password"
-              id="password"
-              type="password"
-              className="form-control"
-              placeholder="Enter password"
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <button type="submit" className="btn btn-primary w-100">
-            Register
-          </button>
-        </form>
-
-        {message && (
-          <div className="alert alert-info mt-3 text-center" role="alert">
-            {message}
-          </div>
-        )}
-      </div>
-    </div>
+        <Container maxWidth="xs">
+          <Box p={4} boxShadow={3} borderRadius={2} bgcolor="white">
+            <Typography variant="h5" align="center" gutterBottom>
+              Register
+            </Typography>
+            <form onSubmit={handleSubmit}>
+              <TextField
+                fullWidth
+                margin="normal"
+                label="Username"
+                name="username"
+                value={form.username}
+                onChange={handleChange}
+                required
+              />
+              <TextField
+                fullWidth
+                margin="normal"
+                label="Password"
+                type="password"
+                name="password"
+                value={form.password}
+                onChange={handleChange}
+                required
+              />
+              {message && (
+                <Box mt={2}>
+                  <Alert
+                    severity={
+                      message.includes("successful") ? "success" : "error"
+                    }
+                  >
+                    {message}
+                  </Alert>
+                </Box>
+              )}
+              <Box mt={2}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                >
+                  Register
+                </Button>
+              </Box>
+            </form>
+          </Box>
+        </Container>
+      </Box>
+    </>
   );
 };
 
