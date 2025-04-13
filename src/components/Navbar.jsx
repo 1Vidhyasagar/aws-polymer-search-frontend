@@ -16,27 +16,62 @@ const NavigationBar = () => {
   };
 
   return (
-    <Navbar bg="light" variant="light" expand="lg" className="shadow-sm">
+    <Navbar
+      expand="lg"
+      className="shadow-sm"
+      style={{
+        background: "rgba(255, 255, 255, 0.1)",
+        backdropFilter: "blur(10px)",
+        WebkitBackdropFilter: "blur(10px)",
+        boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
+        borderBottom: "1px solid rgba(255, 255, 255, 0.18)",
+      }}
+    >
       <Container>
-        <Navbar.Brand href="/" style={{ fontWeight: "bold", fontSize: "1.4rem" }}>
+        <Navbar.Brand
+          href="/"
+          style={{
+            fontWeight: "bold",
+            fontSize: "1.5rem",
+            color: "#ffffff",
+            textShadow: "1px 1px 4px rgba(0, 0, 0, 0.4)",
+          }}
+        >
           AWS Polymer Search
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle
+          aria-controls="basic-navbar-nav"
+          style={{ border: "none" }}
+        />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto" style={{ gap: "10px", alignItems: "center" }}>
+          <Nav
+            className="ms-auto"
+            style={{ gap: "10px", alignItems: "center" }}
+          >
             {!isAuthenticated ? (
               <>
-                <Nav.Link href="/login">Login</Nav.Link>
-                <Nav.Link href="/register">Sign Up</Nav.Link>
+                <Nav.Link href="/login" style={{ color: "#fff" }}>
+                  Login
+                </Nav.Link>
+                <Nav.Link href="/register" style={{ color: "#fff" }}>
+                  Sign Up
+                </Nav.Link>
               </>
             ) : (
               <Button
-  variant="outline-danger"
-  style={{ fontWeight: '500', padding: '6px 12px' }}
-  onClick={handleLogout}
->
-  Logout
-</Button>
+                variant="outline-light"
+                style={{
+                  fontWeight: "500",
+                  padding: "6px 12px",
+                  border: "1px solid white",
+                  color: "#fff",
+                  backdropFilter: "blur(3px)",
+                  backgroundColor: "rgba(255, 255, 255, 0.05)",
+                }}
+                onClick={handleLogout}
+              >
+                Logout
+              </Button>
             )}
           </Nav>
         </Navbar.Collapse>
