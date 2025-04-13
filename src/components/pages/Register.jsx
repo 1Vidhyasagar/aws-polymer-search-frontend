@@ -38,7 +38,7 @@ const Register = () => {
         display="flex"
         justifyContent="center"
         alignItems="center"
-        minHeight="100vh"
+        minHeight="80vh"
         sx={{
           background: "linear-gradient(135deg, #0f2027, #203a43, #2c5364)",
           backgroundSize: "cover",

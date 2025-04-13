@@ -47,14 +47,17 @@ const Login = () => {
         display="flex"
         justifyContent="center"
         alignItems="center"
-        minHeight="100vh"
+        minHeight="80vh"
         sx={{
           background: "linear-gradient(135deg, #0f2027, #203a43, #2c5364)",
           backgroundSize: "cover",
           backgroundPosition: "center",
+          marginTop: 0, // Remove top margin
         }}
       >
-        <Container maxWidth="xs">
+        <Container maxWidth="xs" sx={{ marginTop: 0, paddingTop: 0 }}>
+          {" "}
+          {/* Remove container margin */}
           <Box
             p={4}
             sx={{
@@ -64,6 +67,7 @@ const Login = () => {
               WebkitBackdropFilter: "blur(8px)",
               borderRadius: "16px",
               border: "1px solid rgba(255, 255, 255, 0.18)",
+              marginTop: 0, // Remove margin on Box element
             }}
           >
             <Typography variant="h5" align="center" gutterBottom color="white">
