@@ -14,7 +14,7 @@ const Register = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/register", // ✅ Local backend
+        "https://aws-polymer-search-backend-1.onrender.com/api/auth/register", // 
         form
       );
 
