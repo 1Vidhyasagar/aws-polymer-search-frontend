@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Typography, Box } from "@mui/material";
-import SearchBar from "./SearchBar"; // ✅ Only import once
-import SearchResults from "./SearchResults"; // Correctly import and use the results
-import SearchChart from "./SearchChart"; // Import SearchChart if needed
+import SearchBar from "./SearchBar"; 
+import SearchResults from "./SearchResults"; 
+import SearchChart from "./SearchChart"; 
 import { useAuth } from "../context/AuthContext";
 
 const Dashboard = () => {
@@ -49,7 +49,6 @@ const Dashboard = () => {
         Welcome to AWS Polymer
       </Typography>
 
-      {/* Single SearchBar */}
       <SearchBar onSearch={handleSearch} />
 
       {/* Show message if there is any */}
