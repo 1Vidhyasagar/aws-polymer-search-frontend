@@ -1,7 +1,6 @@
 import axios from "axios";
 
-// 🔁 Point to your deployed backend
-const API_BASE_URL = "https://aws-polymer-search-backend-gx9o.vercel.app/api";
+const API_BASE_URL = "http://localhost:5000/api"; // ✅ include /api
 
 export const searchPolymer = async (query) => {
   const token = localStorage.getItem("token");
@@ -23,7 +22,6 @@ export const searchPolymer = async (query) => {
   }
 };
 
-// Optionally add login/register APIs if not already present
 export const loginUser = async (form) => {
   const response = await axios.post(`${API_BASE_URL}/auth/login`, form);
   return response.data;

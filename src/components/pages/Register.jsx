@@ -14,7 +14,7 @@ const Register = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "https://aws-polymer-search-backend-gx9o.vercel.app/api/auth/register",
+        "http://localhost:5000/api/auth/register", // ✅ Local backend
         form
       );
 
