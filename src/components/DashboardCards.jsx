@@ -48,46 +48,48 @@ const Dashboard = () => {
        py: 6,
      }}
    >
-     <Container maxWidth="md">
-       <Box
-         p={4}
-         sx={{
-           background: "rgba(255, 255, 255, 0.15)",
-           boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
-           backdropFilter: "blur(8px)",
-           WebkitBackdropFilter: "blur(8px)",
-           borderRadius: "16px",
-           border: "1px solid rgba(255, 255, 255, 0.18)",
-           textAlign: "center",
-         }}
+     {/* Fixed-width search box area */}
+     <Box
+       maxWidth="600px"
+       mx="auto"
+       p={4}
+       sx={{
+         background: "rgba(255, 255, 255, 0.15)",
+         boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
+         backdropFilter: "blur(8px)",
+         WebkitBackdropFilter: "blur(8px)",
+         borderRadius: "16px",
+         border: "1px solid rgba(255, 255, 255, 0.18)",
+         textAlign: "center",
+       }}
+     >
+       <Typography
+         variant="h5"
+         component="h2"
+         gutterBottom
+         sx={{ color: "white", fontWeight: "bold" }}
        >
-         <Typography
-           variant="h5"
-           component="h2"
-           gutterBottom
-           sx={{ color: "white", fontWeight: "bold" }}
-         >
-           Welcome to AWS Polymer
+         Welcome to AWS Polymer
+       </Typography>
+
+       <SearchBar onSearch={handleSearch} />
+
+       {message && (
+         <Typography color="error" sx={{ mt: 2 }}>
+           {message}
          </Typography>
-
-         <SearchBar onSearch={handleSearch} />
-
-         {message && (
-           <Typography color="error" sx={{ mt: 2 }}>
-             {message}
-           </Typography>
-         )}
-       </Box>
-
-       {searchResults.length > 0 && (
-         <Box mt={4}>
-           <SearchResults results={searchResults} />
-           <Box mt={4}>
-             <SearchChart data={searchResults} />
-           </Box>
-         </Box>
        )}
-     </Container>
+     </Box>
+
+     {/* Search results + chart below, full width */}
+     {searchResults.length > 0 && (
+       <Box mt={4} px={2}>
+         <SearchResults results={searchResults} />
+         <Box mt={4}>
+           <SearchChart data={searchResults} />
+         </Box>
+       </Box>
+     )}
    </Box>
  );
 
