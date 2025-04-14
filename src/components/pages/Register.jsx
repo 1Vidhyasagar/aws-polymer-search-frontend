@@ -8,11 +8,13 @@ import {
   Box,
   Alert,
   CssBaseline,
+  CircularProgress,
 } from "@mui/material";
 
 const Register = () => {
   const [form, setForm] = useState({ username: "", password: "" });
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -20,6 +22,9 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage("");
+    setLoading(true);
+
     try {
       const res = await axios.post(
         "https://aws-polymer-search-backend-1.onrender.com/api/auth/register",
@@ -28,6 +33,8 @@ const Register = () => {
       setMessage(res.data.message);
     } catch (err) {
       setMessage(err.response?.data?.message || "Registration failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -41,8 +48,6 @@ const Register = () => {
         minHeight="80vh"
         sx={{
           background: "linear-gradient(135deg, #0f2027, #203a43, #2c5364)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
         }}
       >
         <Container maxWidth="xs">
@@ -52,7 +57,6 @@ const Register = () => {
               background: "rgba(255, 255, 255, 0.15)",
               boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
               backdropFilter: "blur(8px)",
-              WebkitBackdropFilter: "blur(8px)",
               borderRadius: "16px",
               border: "1px solid rgba(255, 255, 255, 0.18)",
             }}
@@ -85,23 +89,34 @@ const Register = () => {
               {message && (
                 <Box mt={2}>
                   <Alert
-                    severity={
-                      message.includes("successful") ? "success" : "error"
-                    }
+                    severity={message.includes("success") ? "success" : "error"}
                   >
                     {message}
                   </Alert>
                 </Box>
               )}
-              <Box mt={2}>
+              <Box mt={2} position="relative">
                 <Button
                   fullWidth
                   variant="contained"
                   color="primary"
                   type="submit"
+                  disabled={loading}
                 >
-                  Register
+                  {loading ? "Registering..." : "Register"}
                 </Button>
+                {loading && (
+                  <CircularProgress
+                    size={24}
+                    sx={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      marginTop: "-12px",
+                      marginLeft: "-12px",
+                    }}
+                  />
+                )}
               </Box>
             </form>
           </Box>

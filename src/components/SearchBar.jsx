@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Box, TextField, Button, Paper } from "@mui/material";
+import { Box, TextField, Button, Paper, CircularProgress } from "@mui/material";
 
 const SearchBar = ({ onSearch }) => {
   const [query, setQuery] = useState("");
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const trimmedQuery = query.trim();
 
@@ -15,7 +16,9 @@ const SearchBar = ({ onSearch }) => {
     }
 
     setError(false);
-    onSearch(trimmedQuery);
+    setLoading(true);
+    await onSearch(trimmedQuery);
+    setLoading(false);
   };
 
   return (
@@ -25,12 +28,11 @@ const SearchBar = ({ onSearch }) => {
         padding: 2,
         maxWidth: 600,
         margin: "30px auto",
-        background: "rgba(255, 255, 255, 0.1)", // Glassmorphism Background
-        backdropFilter: "blur(10px)", // Blur effect
-        WebkitBackdropFilter: "blur(10px)", // For Safari
+        background: "rgba(255, 255, 255, 0.1)",
+        backdropFilter: "blur(10px)",
         borderRadius: "12px",
         boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
-        border: "1px solid rgba(255, 255, 255, 0.2)", // Light border for glass effect
+        border: "1px solid rgba(255, 255, 255, 0.2)",
       }}
     >
       <Box
@@ -50,38 +52,47 @@ const SearchBar = ({ onSearch }) => {
           error={error}
           helperText={error ? "Please enter a search term" : ""}
           sx={{
-            input: {
-              color: "#fff", // White text color
-            },
-            "& .MuiInputLabel-root": {
-              color: "#fff", // White label text
-            },
+            input: { color: "#fff" },
+            "& .MuiInputLabel-root": { color: "#fff" },
             "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor: "rgba(255, 255, 255, 0.2)", // Light border for input
-              },
-              "&:hover fieldset": {
-                borderColor: "rgba(255, 255, 255, 0.5)", // Hover effect border color
-              },
+              "& fieldset": { borderColor: "rgba(255, 255, 255, 0.2)" },
+              "&:hover fieldset": { borderColor: "rgba(255, 255, 255, 0.5)" },
             },
           }}
         />
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          sx={{
-            minWidth: "120px",
-            backdropFilter: "blur(5px)", // Adding a blur effect to button as well
-            background: "rgba(25, 118, 210, 0.8)", // Slightly transparent button background
-            color: "#fff", // White text on button
-            "&:hover": {
-              background: "rgba(25, 118, 210, 1)", // Solid background on hover
-            },
-          }}
-        >
-          Search
-        </Button>
+        <Box position="relative" width={{ xs: "100%", sm: "auto" }}>
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            fullWidth={true}
+            disabled={loading}
+            sx={{
+              minWidth: "120px",
+              backdropFilter: "blur(5px)",
+              background: "rgba(25, 118, 210, 0.8)",
+              color: "#fff",
+              "&:hover": {
+                background: "rgba(25, 118, 210, 1)",
+              },
+            }}
+          >
+            {loading ? "Searching..." : "Search"}
+          </Button>
+          {loading && (
+            <CircularProgress
+              size={24}
+              sx={{
+                color: "white",
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                marginTop: "-12px",
+                marginLeft: "-12px",
+              }}
+            />
+          )}
+        </Box>
       </Box>
     </Paper>
   );
