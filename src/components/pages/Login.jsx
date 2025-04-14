@@ -8,6 +8,7 @@ import {
   Box,
   Alert,
   CssBaseline,
+  CircularProgress,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
@@ -15,6 +16,7 @@ import { useAuth } from "../../context/AuthContext";
 const Login = () => {
   const [form, setForm] = useState({ username: "", password: "" });
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -25,6 +27,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
+    setLoading(true);
 
     try {
       const res = await axios.post(
@@ -34,9 +37,14 @@ const Login = () => {
 
       login(res.data.token);
       setMessage("Login successful! Redirecting...");
-      navigate("/dashboard");
+
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 1000); // short delay for UX
     } catch (err) {
       setMessage(err.response?.data?.message || "Login failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -52,12 +60,10 @@ const Login = () => {
           background: "linear-gradient(135deg, #0f2027, #203a43, #2c5364)",
           backgroundSize: "cover",
           backgroundPosition: "center",
-          marginTop: 0, // Remove top margin
+          marginTop: 0,
         }}
       >
         <Container maxWidth="xs" sx={{ marginTop: 0, paddingTop: 0 }}>
-          {" "}
-          {/* Remove container margin */}
           <Box
             p={4}
             sx={{
@@ -67,7 +73,7 @@ const Login = () => {
               WebkitBackdropFilter: "blur(8px)",
               borderRadius: "16px",
               border: "1px solid rgba(255, 255, 255, 0.18)",
-              marginTop: 0, // Remove margin on Box element
+              marginTop: 0,
             }}
           >
             <Typography variant="h5" align="center" gutterBottom color="white">
@@ -112,8 +118,10 @@ const Login = () => {
                   variant="contained"
                   color="primary"
                   type="submit"
+                  disabled={loading}
+                  startIcon={loading && <CircularProgress size={20} />}
                 >
-                  Login
+                  {loading ? "Logging in..." : "Login"}
                 </Button>
               </Box>
             </form>
