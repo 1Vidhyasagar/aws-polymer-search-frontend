@@ -1,49 +1,65 @@
-import React from "react";
+import React, { useState } from "react";
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  Grid,
+  Pagination,
+} from "@mui/material";
+
+const ITEMS_PER_PAGE = 5;
 
 const SearchResults = ({ results }) => {
+  const [page, setPage] = useState(1);
+  const totalPages = Math.ceil(results.length / ITEMS_PER_PAGE);
+  const startIndex = (page - 1) * ITEMS_PER_PAGE;
+  const paginatedResults = results.slice(
+    startIndex,
+    startIndex + ITEMS_PER_PAGE
+  );
+
+  const handlePageChange = (event, value) => {
+    setPage(value);
+  };
+
   return (
-    <div
-      className="container mt-4"
-      style={{
-        background: "rgba(255, 255, 255, 0.1)", // Glassmorphism background
-        backdropFilter: "blur(10px)", // Blur effect
-        borderRadius: "12px",
-        padding: "20px",
-        boxShadow: "0 8px 32px rgba(31, 38, 135, 0.37)", // Soft shadow for container
-        border: "1px solid rgba(255, 255, 255, 0.2)", // Light border for the container
-      }}
-    >
-      <div className="row">
-        {results.length === 0 ? (
-          <div className="col-12">
-            <p>No results found.</p>
-          </div>
-        ) : (
-          results.map((item, index) => (
-            <div
-              className="col-12 col-sm-6 col-md-4 mb-3"
-              key={index}
-              style={{
-                background: "rgba(255, 255, 255, 0.15)", // Glass effect on cards
-                backdropFilter: "blur(8px)", // Subtle blur for card
-                borderRadius: "8px", // Rounded corners for the card
-                boxShadow: "0 4px 16px rgba(31, 38, 135, 0.25)", // Soft shadow
-                border: "1px solid rgba(255, 255, 255, 0.3)", // Light border for cards
+    <Box>
+      <Typography variant="h6" sx={{ color: "white", mb: 2 }}>
+        Search Results
+      </Typography>
+      <Grid container spacing={2}>
+        {paginatedResults.map((result, index) => (
+          <Grid item xs={12} key={index}>
+            <Card
+              sx={{
+                background: "rgba(255,255,255,0.1)",
+                color: "#fff",
+                borderRadius: 2,
+                boxShadow: 3,
               }}
             >
-              <div className="card h-100">
-                <div className="card-body">
-                  <h5 className="card-title">{item.title || "Untitled"}</h5>
-                  <p className="card-text">
-                    {item.description || "No description available."}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))
-        )}
-      </div>
-    </div>
+              <CardContent>
+                <Typography variant="subtitle1" fontWeight="bold">
+                  {result.title}
+                </Typography>
+                <Typography variant="body2">{result.description}</Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+      {totalPages > 1 && (
+        <Box display="flex" justifyContent="center" mt={4}>
+          <Pagination
+            count={totalPages}
+            page={page}
+            onChange={handlePageChange}
+            color="primary"
+          />
+        </Box>
+      )}
+    </Box>
   );
 };
 

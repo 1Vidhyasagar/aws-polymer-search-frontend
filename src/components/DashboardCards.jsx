@@ -46,11 +46,11 @@ const Dashboard = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
         py: 6,
-        px: 2, // padding for small screens
+        px: 2,
       }}
     >
       <Box
-        maxWidth="600px"
+        maxWidth="800px"
         width="100%"
         mx="auto"
         p={4}
@@ -82,12 +82,14 @@ const Dashboard = () => {
         )}
 
         {searchResults.length > 0 && (
-          <Box mt={4}>
-            <SearchResults results={searchResults} />
+          <>
             <Box mt={4}>
+              <SearchResults results={searchResults} />
+            </Box>
+            <Box mt={6}>
               <SearchChart data={searchResults} />
             </Box>
-          </Box>
+          </>
         )}
       </Box>
     </Box>
