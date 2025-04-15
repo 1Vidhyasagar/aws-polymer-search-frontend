@@ -48,7 +48,7 @@ const Register = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        "https://aws-polymer-search-backend-1.onrender.com/api/auth/login",
+        "https://aws-polymer-search-backend-1.onrender.com/api/auth/register",
         form
       );
       setMessage(res.data.message);
