@@ -26,7 +26,7 @@ const SearchBar = ({ onSearch }) => {
       elevation={3}
       sx={{
         padding: 2,
-        maxWidth: 600,
+        maxWidth: 500,
         margin: "30px auto",
         background: "rgba(255, 255, 255, 0.1)",
         backdropFilter: "blur(10px)",

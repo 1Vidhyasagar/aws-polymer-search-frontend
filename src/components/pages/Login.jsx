@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [form, setForm] = useState({ username: "", password: "" });
@@ -24,25 +25,37 @@ const Login = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const validateForm = () => {
+    const { username, password } = form;
+    if (!username.trim() || !password.trim()) {
+      toast.warning("Please enter both username and password.");
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
-    setLoading(true);
+    if (!validateForm()) return;
 
+    setLoading(true);
     try {
       const res = await axios.post(
-        "https://aws-polymer-search-backend-1.onrender.com/api/auth/login",
+        "http://localhost:5000/api/auth/login",
         form
       );
 
       login(res.data.token);
+      toast.success("Login successful!");
       setMessage("Login successful! Redirecting...");
-
       setTimeout(() => {
         navigate("/dashboard");
-      }, 1000); // short delay for UX
+      }, 1000);
     } catch (err) {
-      setMessage(err.response?.data?.message || "Login failed");
+      const errorMsg = err.response?.data?.message || "Login failed";
+      setMessage(errorMsg);
+      toast.error(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -60,10 +73,9 @@ const Login = () => {
           background: "linear-gradient(135deg, #0f2027, #203a43, #2c5364)",
           backgroundSize: "cover",
           backgroundPosition: "center",
-          marginTop: 0,
         }}
       >
-        <Container maxWidth="xs" sx={{ marginTop: 0, paddingTop: 0 }}>
+        <Container maxWidth="xs">
           <Box
             p={4}
             sx={{
@@ -73,7 +85,6 @@ const Login = () => {
               WebkitBackdropFilter: "blur(8px)",
               borderRadius: "16px",
               border: "1px solid rgba(255, 255, 255, 0.18)",
-              marginTop: 0,
             }}
           >
             <Typography variant="h5" align="center" gutterBottom color="white">
@@ -105,7 +116,9 @@ const Login = () => {
                 <Box mt={2}>
                   <Alert
                     severity={
-                      message.includes("successful") ? "success" : "error"
+                      message.toLowerCase().includes("success")
+                        ? "success"
+                        : "error"
                     }
                   >
                     {message}

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://aws-polymer-search-backend-1.onrender.com/api"; 
+const API_BASE_URL = "http://localhost:5000/api"; 
 
 export const searchPolymer = async (query) => {
   const token = localStorage.getItem("token");

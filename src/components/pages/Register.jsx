@@ -10,29 +10,54 @@ import {
   CssBaseline,
   CircularProgress,
 } from "@mui/material";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [form, setForm] = useState({ username: "", password: "" });
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const validateForm = () => {
+    const { username, password } = form;
+    if (!username.trim() || !password.trim()) {
+      toast.warning("All fields are required.");
+      return false;
+    }
+    if (username.length < 3) {
+      toast.warning("Username must be at least 3 characters.");
+      return false;
+    }
+    if (password.length < 6) {
+      toast.warning("Password must be at least 6 characters.");
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
-    setLoading(true);
+    if (!validateForm()) return;
 
+    setLoading(true);
     try {
       const res = await axios.post(
-        "https://aws-polymer-search-backend-1.onrender.com/api/auth/register",
+        "http://localhost:5000/api/auth/register",
         form
       );
       setMessage(res.data.message);
+      toast.success("Registration successful! Please login.");
+      setTimeout(() => navigate("/login"), 1500);
     } catch (err) {
-      setMessage(err.response?.data?.message || "Registration failed");
+      const errorMsg = err.response?.data?.message || "Registration failed";
+      setMessage(errorMsg);
+      toast.error(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -89,7 +114,11 @@ const Register = () => {
               {message && (
                 <Box mt={2}>
                   <Alert
-                    severity={message.includes("success") ? "success" : "error"}
+                    severity={
+                      message.toLowerCase().includes("success")
+                        ? "success"
+                        : "error"
+                    }
                   >
                     {message}
                   </Alert>
