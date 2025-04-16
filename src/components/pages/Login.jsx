@@ -54,7 +54,7 @@ const Login = () => {
       }, 1000);
     } catch (err) {
       const errorMsg = err.response?.data?.message || "Login failed";
-      setMessage(errorMsg);
+      
       toast.error(errorMsg);
     } finally {
       setLoading(false);
@@ -70,7 +70,6 @@ const Login = () => {
         alignItems="center"
         minHeight="80vh"
         sx={{
-          background: "linear-gradient(135deg, #0f2027, #203a43, #2c5364)",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}

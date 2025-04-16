@@ -56,7 +56,6 @@ const Register = () => {
       setTimeout(() => navigate("/login"), 1500);
     } catch (err) {
       const errorMsg = err.response?.data?.message || "Registration failed";
-      setMessage(errorMsg);
       toast.error(errorMsg);
     } finally {
       setLoading(false);
@@ -71,9 +70,7 @@ const Register = () => {
         justifyContent="center"
         alignItems="center"
         minHeight="80vh"
-        sx={{
-          background: "linear-gradient(135deg, #0f2027, #203a43, #2c5364)",
-        }}
+       
       >
         <Container maxWidth="xs">
           <Box
